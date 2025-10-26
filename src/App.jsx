@@ -8,6 +8,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login.jsx' // new login page
 import Home from './pages/home.jsx'
 import Fun from './pages/fun.jsx'
+import Road from './pages/road.jsx'
+import Muncipal from './pages/muncipal.jsx'
+
 
 export default function App() {
   const [session, setSession] = useState(null)
@@ -37,6 +40,9 @@ export default function App() {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/fun" element={<Fun/>}/>
+            <Route path="/roadauthority" element={<Road/>}/>
+            <Route path="/municipality" element={<Muncipal/>}/>
+            
             
           </>
         )}
