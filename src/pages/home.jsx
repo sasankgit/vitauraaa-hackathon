@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
 import {
@@ -6,14 +6,13 @@ import {
   X,
   AlertTriangle,
   FileText,
-  LogOut,
   Camera,
   Cpu,
   History,
   CheckCircle,
   Clock,
   Users,
-  Move, // Icon for potholes
+  Move,
   LightbulbOff,
   Trash2,
   Paintbrush,
@@ -22,61 +21,95 @@ import {
 const Home = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [stats, setStats] = useState({ reports: 120, users: 45, resolved: 80 });
 
   async function handleLogout() {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      navigate("/"); // redirect to login
+      navigate("/");
     } catch (error) {
       console.error("Logout error:", error.message);
       alert("Failed to logout. Try again.");
     }
   }
 
+  // Animate counters
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStats((prev) => ({
+        reports: Math.min(prev.reports + Math.floor(Math.random() * 3), 500),
+        users: Math.min(prev.users + Math.floor(Math.random() * 2), 200),
+        resolved: Math.min(prev.resolved + Math.floor(Math.random() * 2), 400),
+      }));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Floating background shapes
+  useEffect(() => {
+    const shapes = Array.from({ length: 20 }).map(() => {
+      const el = document.createElement("div");
+      el.className =
+        "absolute w-8 h-8 bg-sky-200 rounded-full opacity-30 animate-float";
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.animationDuration = `${5 + Math.random() * 10}s`;
+      document.body.appendChild(el);
+      return el;
+    });
+
+    return () => shapes.forEach((el) => document.body.removeChild(el));
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-sky-200 via-sky-100 to-white text-sky-900 flex flex-col relative overflow-hidden">
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-gray-800 bg-opacity-80 backdrop-blur-md shadow-md">
-        <h1 className="text-2xl font-bold text-cyan-400">CivicAI Reporter</h1>
+      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white bg-opacity-90 shadow-md backdrop-blur-sm">
+        <h1 className="text-2xl font-bold text-sky-700">CivicAI Reporter</h1>
         <div className="hidden md:flex space-x-6">
-          <Link to="/fun" className="hover:text-cyan-300 transition">
-            Report Problem
+          <Link
+            to="/fun"
+            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
+          >
+            <AlertTriangle size={20} /> Report Problem
           </Link>
-          <Link to="/display" className="hover:text-cyan-300 transition">
-            View Reports
+          <Link
+            to="/display"
+            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
+          >
+            <FileText size={20} /> View Reports
           </Link>
           <button
             onClick={handleLogout}
-            className="text-red-400 hover:text-red-300 transition"
+            className="text-red-600 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             Logout
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-sky-700 focus:outline-none"
         >
           {menuOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="sticky top-[68px] z-40 md:hidden flex flex-col bg-gray-800 bg-opacity-90 px-6 py-4 space-y-3 shadow-lg">
+        <div className="md:hidden flex flex-col bg-white bg-opacity-95 shadow-lg px-6 py-4 space-y-3">
           <Link
             to="/fun"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-cyan-300"
+            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             Report Problem
           </Link>
           <Link
             to="/display"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-cyan-300"
+            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             View Reports
           </Link>
@@ -85,163 +118,112 @@ const Home = () => {
               setMenuOpen(false);
               handleLogout();
             }}
-            className="text-red-400 hover:text-red-300 text-left"
+            className="text-red-600 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold text-left"
           >
             Logout
           </button>
         </div>
       )}
 
-      {/* Main Content Area */}
-      <main className="flex-grow">
-        {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center text-center px-6 py-20">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-cyan-400 drop-shadow-lg">
-            AI-Based Civic Problem Reporting System
+      {/* Hero Section */}
+      <main className="flex-grow relative z-10">
+        <section className="flex flex-col items-center justify-center text-center px-6 py-32 min-h-screen animate-fadeIn">
+          <h2 className="text-5xl font-extrabold mb-6 text-sky-700 drop-shadow-lg">
+            AI-Based Civic Problem Reporting
           </h2>
-          <p className="text-gray-300 max-w-2xl text-lg mb-10">
-            Empowering citizens to report civic issues like potholes, streetlight
-            failures, and sanitation problems using AI detection and automated
-            categorization. Stay informed and help improve your community!
+          <p className="text-sky-900 max-w-3xl text-lg mb-10 animate-bounce">
+            Empower citizens to report civic issues like potholes, broken streetlights, and sanitation problems.
           </p>
 
           <div className="flex flex-col md:flex-row gap-5">
             <Link
               to="/fun"
-              className="flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105"
+              className="flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-sky-500/50 "
             >
-              <AlertTriangle size={20} />
-              Report a Problem
+              <AlertTriangle size={20} /> Report a Problem
             </Link>
 
             <Link
               to="/display"
-              className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105"
+              className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-emerald-500/50"
             >
-              <FileText size={20} />
-              View Reports
+              <FileText size={20} /> View Reports
             </Link>
-            {/* Logout button removed from here - it's already in the nav */}
           </div>
-        </div>
+        </section>
 
-        {/* How It Works Section */}
-        <section className="bg-gray-800 py-16">
-          <div className="container mx-auto px-6 max-w-5xl">
-            <h3 className="text-3xl font-bold text-center mb-10 text-cyan-400">
-              Report in 3 Easy Steps
-            </h3>
-            <div className="flex flex-col md:flex-row gap-8">
-              {/* Step 1 */}
-              <div className="flex-1 flex flex-col items-center text-center p-6 bg-gray-700 rounded-xl shadow-lg">
-                <Camera size={48} className="text-cyan-400 mb-4" />
-                <h4 className="text-xl font-semibold mb-2">1. Snap & Upload</h4>
-                <p className="text-gray-300">
-                  Take a photo or video of the issue (pothole, broken light,
-                  etc.) and upload it through our simple form.
-                </p>
-              </div>
-              {/* Step 2 */}
-              <div className="flex-1 flex flex-col items-center text-center p-6 bg-gray-700 rounded-xl shadow-lg">
-                <Cpu size={48} className="text-cyan-400 mb-4" />
-                <h4 className="text-xl font-semibold mb-2">2. AI Analyzes</h4>
-                <p className="text-gray-300">
-                  Our AI automatically analyzes the image, categorizes the
-                  problem, and identifies the location.
-                </p>
-              </div>
-              {/* Step 3 */}
-              <div className="flex-1 flex flex-col items-center text-center p-6 bg-gray-700 rounded-xl shadow-lg">
-                <History size={48} className="text-cyan-400 mb-4" />
-                <h4 className="text-xl font-semibold mb-2">3. Submit & Track</h4>
-                <p className="text-gray-300">
-                  Confirm the details and submit. You can track the status of
-                  your report right from your dashboard.
-                </p>
-              </div>
+        {/* Stats Section */}
+        <section className="py-20 bg-sky-100">
+          <h3 className="text-4xl font-bold mb-12 text-sky-700 text-center">
+            Community Stats
+          </h3>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <CheckCircle size={36} className="mx-auto text-sky-500 mb-4" />
+              <h4 className="text-3xl font-bold">{stats.reports}</h4>
+              <p className="text-sky-700 mt-2">Reports Submitted</p>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <Users size={36} className="mx-auto text-sky-500 mb-4" />
+              <h4 className="text-3xl font-bold">{stats.users}</h4>
+              <p className="text-sky-700 mt-2">Active Users</p>
+            </div>
+            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <Clock size={36} className="mx-auto text-sky-500 mb-4" />
+              <h4 className="text-3xl font-bold">{stats.resolved}</h4>
+              <p className="text-sky-700 mt-2">Issues Resolved</p>
             </div>
           </div>
         </section>
 
-        {/* Key Features Section */}
-        <section className="py-20 bg-gray-900">
-          <div className="container mx-auto px-6 max-w-6xl">
-            <h3 className="text-3xl font-bold text-center mb-12 text-cyan-400">
-              Features That Empower You
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Feature 1 */}
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                <CheckCircle size={32} className="text-emerald-400 mb-3" />
-                <h4 className="text-xl font-semibold mb-2">
-                  AI-Powered Detection
-                </h4>
-                <p className="text-gray-300">
-                  Advanced machine learning models identify and classify problems
-                  from your images, reducing manual effort.
-                </p>
-              </div>
-              {/* Feature 2 */}
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                <Clock size={32} className="text-emerald-400 mb-3" />
-                <h4 className="text-xl font-semibold mb-2">
-                  Real-Time Status Updates
-                </h4>
-                <p className="text-gray-300">
-                  Get notified and check the status of your reports as they are
-                  received, reviewed, and resolved.
-                </p>
-              </div>
-              {/* Feature 3 */}
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                <Users size={32} className="text-emerald-400 mb-3" />
-                <h4 className="text-xl font-semibold mb-2">Community Dashboard</h4>
-                <p className="text-gray-300">
-                  View all public reports on an interactive map and see the
-                  progress being made in your area.
-                </p>
-              </div>
+        {/* Features Section */}
+        <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { icon: Camera, title: "AI Detection", desc: "Automatically identify and categorize issues." },
+            { icon: Cpu, title: "Smart Dashboard", desc: "Interactive view of all community reports." },
+            { icon: Paintbrush, title: "Visual Feedback", desc: "Mark issues with photos and drawings." },
+            { icon: Move, title: "Track Progress", desc: "Monitor issues in real-time." },
+            { icon: History, title: "Audit Trail", desc: "Keep logs of all reports and actions." },
+            { icon: LightbulbOff, title: "Community Tips", desc: "Get suggestions for solving local issues." },
+          ].map((feature, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition"
+            >
+              <feature.icon size={36} className="mx-auto text-sky-500 mb-4" />
+              <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
+              <p className="text-sky-700">{feature.desc}</p>
             </div>
-          </div>
+          ))}
         </section>
 
-        {/* What Can You Report? Section */}
-        <section className="bg-gray-800 py-16">
-          <div className="container mx-auto px-6 max-w-5xl">
-            <h3 className="text-3xl font-bold text-center mb-10 text-cyan-400">
-              Help Improve Your Neighborhood
-            </h3>
-            <p className="text-center text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-              Your reports provide valuable data to city officials, helping them
-              prioritize and fix issues faster.
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="flex flex-col items-center p-4 bg-gray-700 rounded-lg shadow-md">
-                <Move size={40} className="text-cyan-300 mb-2" />
-                <span className="font-semibold">Potholes</span>
-              </div>
-              <div className="flex flex-col items-center p-4 bg-gray-700 rounded-lg shadow-md">
-                <LightbulbOff size={40} className="text-cyan-300 mb-2" />
-                <span className="font-semibold">Broken Streetlights</span>
-              </div>
-              <div className="flex flex-col items-center p-4 bg-gray-700 rounded-lg shadow-md">
-                <Trash2 size={40} className="text-cyan-300 mb-2" />
-                <span className="font-semibold">Waste Management</span>
-              </div>
-              <div className="flex flex-col items-center p-4 bg-gray-700 rounded-lg shadow-md">
-                <Paintbrush size={40} className="text-cyan-300 mb-2" />
-                <span className="font-semibold">Graffiti</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Extra spacing */}
+        <div className="h-[50vh]" />
       </main>
 
       {/* Footer */}
-      <footer className="text-gray-400 text-sm text-center py-5 border-t border-gray-700">
-        © {new Date().getFullYear()} CivicAI Reporter | Designed with ❤️ for
-        Smart Cities
+      <footer className="text-sky-700 text-sm text-center py-5 border-t border-sky-300 bg-white bg-opacity-80">
+        © {new Date().getFullYear()} CivicAI Reporter | Designed with ❤️
       </footer>
+
+      {/* Floating shapes animation */}
+      <style>{`
+        @keyframes float {
+          0% { transform: translateY(0) translateX(0); }
+          50% { transform: translateY(-20px) translateX(10px); }
+          100% { transform: translateY(0) translateX(0); }
+        }
+        .animate-float {
+          animation: float infinite ease-in-out;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 1.2s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
