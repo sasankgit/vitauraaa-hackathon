@@ -14,7 +14,6 @@ import {
   Users,
   Move,
   LightbulbOff,
-  Trash2,
   Paintbrush,
 } from "lucide-react";
 
@@ -51,7 +50,7 @@ const Home = () => {
     const shapes = Array.from({ length: 20 }).map(() => {
       const el = document.createElement("div");
       el.className =
-        "absolute w-8 h-8 bg-sky-200 rounded-full opacity-30 animate-float";
+        "absolute w-8 h-8 bg-purple-300 rounded-full opacity-30 animate-float";
       el.style.top = `${Math.random() * 100}vh`;
       el.style.left = `${Math.random() * 100}vw`;
       el.style.animationDuration = `${5 + Math.random() * 10}s`;
@@ -63,26 +62,34 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-200 via-sky-100 to-white text-sky-900 flex flex-col relative overflow-hidden">
+    <div className="relative flex flex-col min-h-screen w-full text-white overflow-hidden">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/abc.png')" }}
+      />
+      {/* Purple overlay for contrast */}
+      <div className="absolute inset-0 -z-5 bg-purple-700/50" />
+
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white bg-opacity-90 shadow-md backdrop-blur-sm">
-        <h1 className="text-2xl font-bold text-sky-700">CivicAI Reporter</h1>
+      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white/20 shadow-md backdrop-blur-sm">
+        <h1 className="text-2xl font-bold text-purple-100">CivicAI Reporter</h1>
         <div className="hidden md:flex space-x-6">
           <Link
             to="/fun"
-            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
+            className="hover:text-white hover:bg-purple-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
           >
             <AlertTriangle size={20} /> Report Problem
           </Link>
           <Link
             to="/display"
-            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
+            className="hover:text-white hover:bg-purple-500 transition px-4 py-2 rounded-lg shadow-md font-semibold flex items-center gap-2"
           >
             <FileText size={20} /> View Reports
           </Link>
           <button
             onClick={handleLogout}
-            className="text-red-600 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
+            className="text-red-400 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             Logout
           </button>
@@ -90,7 +97,7 @@ const Home = () => {
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-sky-700 focus:outline-none"
+          className="md:hidden text-purple-100 focus:outline-none"
         >
           {menuOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
@@ -98,18 +105,18 @@ const Home = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden flex flex-col bg-white bg-opacity-95 shadow-lg px-6 py-4 space-y-3">
+        <div className="md:hidden flex flex-col bg-white/20 shadow-lg px-6 py-4 space-y-3 backdrop-blur-sm">
           <Link
             to="/fun"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
+            className="hover:text-white hover:bg-purple-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             Report Problem
           </Link>
           <Link
             to="/display"
             onClick={() => setMenuOpen(false)}
-            className="hover:text-white hover:bg-sky-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
+            className="hover:text-white hover:bg-purple-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
             View Reports
           </Link>
@@ -118,7 +125,7 @@ const Home = () => {
               setMenuOpen(false);
               handleLogout();
             }}
-            className="text-red-600 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold text-left"
+            className="text-red-400 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold text-left"
           >
             Logout
           </button>
@@ -128,24 +135,24 @@ const Home = () => {
       {/* Hero Section */}
       <main className="flex-grow relative z-10">
         <section className="flex flex-col items-center justify-center text-center px-6 py-32 min-h-screen animate-fadeIn">
-          <h2 className="text-5xl font-extrabold mb-6 text-sky-700 drop-shadow-lg">
+          <h2 className="text-5xl font-extrabold mb-6 text-blue-600 drop-shadow-lg">
             AI-Based Civic Problem Reporting
           </h2>
-          <p className="text-sky-900 max-w-3xl text-lg mb-10 animate-bounce">
+          <p className="max-w-3xl text-lg mb-10 animate-bounce">
             Empower citizens to report civic issues like potholes, broken streetlights, and sanitation problems.
           </p>
 
           <div className="flex flex-col md:flex-row gap-5">
             <Link
               to="/fun"
-              className="flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-sky-500/50 "
+              className="flex items-center justify-center gap-2 bg-red-200 hover:bg-purple-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-purple-500/50"
             >
               <AlertTriangle size={20} /> Report a Problem
             </Link>
 
             <Link
               to="/display"
-              className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-emerald-500/50"
+              className="flex items-center justify-center gap-2 bg-red-200 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 hover:shadow-emerald-500/50"
             >
               <FileText size={20} /> View Reports
             </Link>
@@ -153,25 +160,23 @@ const Home = () => {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 bg-sky-100">
-          <h3 className="text-4xl font-bold mb-12 text-sky-700 text-center">
-            Community Stats
-          </h3>
+        <section className="py-20 bg-purple-800/40 backdrop-blur-sm">
+          <h3 className="text-4xl font-bold mb-12 text-center">Community Stats</h3>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
-              <CheckCircle size={36} className="mx-auto text-sky-500 mb-4" />
+            <div className="bg-white/20 rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <CheckCircle size={36} className="mx-auto text-purple-300 mb-4" />
               <h4 className="text-3xl font-bold">{stats.reports}</h4>
-              <p className="text-sky-700 mt-2">Reports Submitted</p>
+              <p className="mt-2">Reports Submitted</p>
             </div>
-            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
-              <Users size={36} className="mx-auto text-sky-500 mb-4" />
+            <div className="bg-white/20 rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <Users size={36} className="mx-auto text-purple-300 mb-4" />
               <h4 className="text-3xl font-bold">{stats.users}</h4>
-              <p className="text-sky-700 mt-2">Active Users</p>
+              <p className="mt-2">Active Users</p>
             </div>
-            <div className="bg-white rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
-              <Clock size={36} className="mx-auto text-sky-500 mb-4" />
+            <div className="bg-white/20 rounded-2xl shadow-lg p-8 w-64 text-center transform hover:scale-105 transition">
+              <Clock size={36} className="mx-auto text-purple-300 mb-4" />
               <h4 className="text-3xl font-bold">{stats.resolved}</h4>
-              <p className="text-sky-700 mt-2">Issues Resolved</p>
+              <p className="mt-2">Issues Resolved</p>
             </div>
           </div>
         </section>
@@ -188,21 +193,20 @@ const Home = () => {
           ].map((feature, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition"
+              className="bg-white/20 rounded-2xl shadow-lg p-6 text-center transform hover:scale-105 transition"
             >
-              <feature.icon size={36} className="mx-auto text-sky-500 mb-4" />
+              <feature.icon size={36} className="mx-auto text-purple-300 mb-4" />
               <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
-              <p className="text-sky-700">{feature.desc}</p>
+              <p>{feature.desc}</p>
             </div>
           ))}
         </section>
 
-        {/* Extra spacing */}
         <div className="h-[50vh]" />
       </main>
 
       {/* Footer */}
-      <footer className="text-sky-700 text-sm text-center py-5 border-t border-sky-300 bg-white bg-opacity-80">
+      <footer className="text-purple-100 text-sm text-center py-5 border-t border-purple-300 bg-white/20 backdrop-blur-sm">
         © {new Date().getFullYear()} CivicAI Reporter | Designed with ❤️
       </footer>
 
