@@ -10,6 +10,7 @@ import Home from './pages/home.jsx'
 import Fun from './pages/fun.jsx'
 import Road from './pages/road.jsx'
 import Muncipal from './pages/muncipal.jsx'
+import ReportsReceived from './pages/display.jsx'
 
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/fun" element={<Fun/>}/>
             <Route path="/roadauthority" element={<Road/>}/>
             <Route path="/municipality" element={<Muncipal/>}/>
+            <Route path="/display" element={<ReportsReceived/>}/>
             
             
           </>
