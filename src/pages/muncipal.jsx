@@ -66,7 +66,7 @@ export default function Muncipal() {
                 <Droplets className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-blue-900">Greater Visakhapatnam Municipal Corporation</h1>
+                <h1 className="text-2xl font-bold text-blue-900">Greater Guntur Municipal Corporation</h1>
                 <p className="text-sm text-gray-600">Water Supply & Sanitation Department</p>
                 <p className="text-xs text-gray-500">जल आपूर्ति और स्वच्छता विभाग</p>
               </div>
