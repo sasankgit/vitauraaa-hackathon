@@ -136,7 +136,7 @@ const Home = () => {
       <main className="flex-grow relative z-10">
         <section className="flex flex-col items-center justify-center text-center px-6 py-32 min-h-screen animate-fadeIn">
           <h2 className="text-5xl font-extrabold mb-6 text-blue-600 drop-shadow-lg">
-            AI-Based Civic Problem Reporting
+            AI-Based Civic Problem Reporting explaining ibrahim
           </h2>
           <p className="max-w-3xl text-lg mb-10 animate-bounce">
             Empower citizens to report civic issues like potholes, broken streetlights, and sanitation problems.
