@@ -13,8 +13,24 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* --- ADDED --- */
+  /* This explicitly allows the page to scroll vertically if content overflows */
+  overflow-y: auto;
 }
 
+/* --- ADDED --- */
+/* This ensures the body and main React app container can fill the screen height,
+   which is a good foundation for layouts like the one in HomePage.jsx */
+body,
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0; /* Reset default body margin */
+}
+
+/* Your custom styles */
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,8 +39,6 @@ a {
 a:hover {
   color: #535bf2;
 }
-
-
 
 h1 {
   font-size: 3.2em;

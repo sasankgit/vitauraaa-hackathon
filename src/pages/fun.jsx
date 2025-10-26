@@ -241,7 +241,7 @@ Be very precise. Only respond with the category name, nothing else.`
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="e.g., Main Street near City Hall"
                 disabled={loading}
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none disabled:bg-slate-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border-2 text-black border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none disabled:bg-slate-50 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -255,7 +255,7 @@ Be very precise. Only respond with the category name, nothing else.`
                 placeholder="Describe the issue in more detail..."
                 rows="4"
                 disabled={loading}
-                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none resize-none disabled:bg-slate-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border-2 text-black border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none resize-none disabled:bg-slate-50 disabled:cursor-not-allowed"
               />
             </div>
 
