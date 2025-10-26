@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // pages
 
-import Login from './pages/Login.jsx' // new login page
+import Login from './pages/login.jsx' // new login page
 import Home from './pages/home.jsx'
 import Fun from './pages/fun.jsx'
 import Road from './pages/road.jsx'
