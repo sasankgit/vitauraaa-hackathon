@@ -91,7 +91,7 @@ const Home = () => {
             onClick={handleLogout}
             className="text-red-400 hover:text-white hover:bg-red-500 transition px-4 py-2 rounded-lg shadow-md font-semibold"
           >
-            Logout
+            Logout new
           </button>
         </div>
 
